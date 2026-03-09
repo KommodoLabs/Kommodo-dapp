@@ -1,0 +1,150 @@
+.head {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vh;
+    margin-top: 10vh
+}
+
+.body {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40vh;
+}
+
+.card {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    border-radius: 30px;
+}
+
+.row-button {
+    display: flex;
+    margin: 15px;
+    width: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button-main {
+    border-radius: 15px;
+    text-align: center;
+}
+
+.form-control:focus {
+    outline: 0 !important;
+    border: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.bottom {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50vh;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+
+.button-token-center {
+    border-radius: 15px;
+    text-align: center;
+}
+
+.button-token-left {
+    border-radius: 15px;
+    text-align: left;
+}
+
+.button-margin {
+    border-radius: 15px;
+}
+
+.card-button-right{
+    display: flex;
+    float: right;
+    border-radius:60px
+}
+
+.text-center {
+    text-align:center;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.btn-custom {
+    border-radius: 15px;
+    text-align: center;
+    background-color:#018d4e;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: green;
+    color: white;
+}
+
+.btn-custom:disabled {
+    background-color:#018d4e;
+    color: white;
+}
+
+
+.form-check-input:checked {
+  background-color: #018d4e !important;
+  border-color: #018d4e !important;
+}
+
+.form-check-input:focus {
+  border-color: #6668 !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.accordion-button {
+      background-color: rgba(1, 141, 78, 0.8) !important;
+      color: white;
+ }
+
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+  color: white;
+}
+
+.accordion-button:after {
+      color: white;
+ }
+
+.accordion-button::after {
+  filter: brightness(0) invert(1);
+}
+
+.alert-custom {
+  background-color: rgba(1, 141, 78, 0.8);
+  color: white;
+  border: none;
+}
+
+input[type="range"].form-range::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Remove default styling */
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: #018d4e; /* Green thumb */
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -6px; /* Center the thumb vertically */
+}

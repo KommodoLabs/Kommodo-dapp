@@ -1,0 +1,29 @@
+.link {
+  color: #424242;
+  margin: 5px;
+}
+
+.button {
+  border-radius: 15px;
+}
+
+.left {
+  align-self: left;
+}
+
+.btn-custom {
+    border-radius: 15px;
+    text-align: center;
+    background-color:#018d4e;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: green;
+    color: white;
+}
+
+.btn-custom:disabled {
+    background-color:#018d4e;
+    color: white;
+}
