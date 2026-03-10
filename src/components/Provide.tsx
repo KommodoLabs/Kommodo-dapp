@@ -1065,13 +1065,12 @@ const Provide = () => {
         </div>
     )
 
-
     return(
         <Container>
             <Row className="head">
                 {/*Input card*/}
 
-                <Alert variant="secondary" className="button-main">
+                <Alert variant="success" className="button-main">
                     Sepolia testnet only
                 </Alert>
 

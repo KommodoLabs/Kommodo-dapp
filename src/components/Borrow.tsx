@@ -1488,7 +1488,7 @@ const Borrow = () => {
         <Container>
             <Row className="head">
 
-                <Alert variant="secondary" className="button-main">
+                <Alert variant="success" className="button-main">
                     Sepolia testnet only
                 </Alert>
 
