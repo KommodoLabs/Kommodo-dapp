@@ -240,12 +240,17 @@ export const NonfungibleLendManager_abi = [
             },
             {
               "internalType": "uint128",
-              "name": "amountA",
+              "name": "liquidity",
               "type": "uint128"
             },
             {
               "internalType": "uint128",
-              "name": "amountB",
+              "name": "amountMaxA",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "amountMaxB",
               "type": "uint128"
             }
           ],
@@ -304,9 +309,9 @@ export const NonfungibleLendManager_abi = [
           "type": "address"
         },
         {
-          "internalType": "address",
-          "name": "pool",
-          "type": "address"
+          "internalType": "uint24",
+          "name": "poolFee",
+          "type": "uint24"
         }
       ],
       "name": "poolApprove",
@@ -394,12 +399,17 @@ export const NonfungibleLendManager_abi = [
             },
             {
               "internalType": "uint128",
-              "name": "amountA",
+              "name": "liquidity",
               "type": "uint128"
             },
             {
               "internalType": "uint128",
-              "name": "amountB",
+              "name": "amountMaxA",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "amountMaxB",
               "type": "uint128"
             }
           ],

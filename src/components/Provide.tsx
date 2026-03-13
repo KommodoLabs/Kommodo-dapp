@@ -135,7 +135,31 @@ const Provide = () => {
     }
 
     function tick_to_sqrt(tick: number){
-        return(BigInt(Math.floor(Math.sqrt(1.0001**tick) * (2**96))))
+        const Q32 = 2n ** 32n                                                                
+        let absTick = BigInt(tick < 0 ? -tick : tick)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        let ratio = (absTick & 1n) != 0n ? 0xfffcb933bd6fad37aa2d162d1a594001n : 0x100000000000000000000000000000000n                                                                                                                                                      
+        if ((absTick & 0x2n) != 0n) ratio = (ratio * 0xfff97272373d413259a46990580e213an) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x4n) != 0n) ratio = (ratio * 0xfff2e50f5f656932ef12357cf3c7fdccn) >> 128n                                                                                                                                                                          
+        if ((absTick & 0x8n) != 0n) ratio = (ratio * 0xffe5caca7e10e4e61c3624eaa0941cd0n) >> 128n                                                                                                                                                                          
+        if ((absTick & 0x10n) != 0n) ratio = (ratio * 0xffcb9843d60f6159c9db58835c926644n) >> 128n                                                                                                                                                                         
+        if ((absTick & 0x20n) != 0n) ratio = (ratio * 0xff973b41fa98c081472e6896dfb254c0n) >> 128n                                                                                                                                                                         
+        if ((absTick & 0x40n) != 0n) ratio = (ratio * 0xff2ea16466c96a3843ec78b326b52861n) >> 128n                                                                                                                                                                         
+        if ((absTick & 0x80n) != 0n) ratio = (ratio * 0xfe5dee046a99a2a811c461f1969c3053n) >> 128n                                                                                                                                                                         
+        if ((absTick & 0x100n) != 0n) ratio = (ratio * 0xfcbe86c7900a88aedcffc83b479aa3a4n) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x200n) != 0n) ratio = (ratio * 0xf987a7253ac413176f2b074cf7815e54n) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x400n) != 0n) ratio = (ratio * 0xf3392b0822b70005940c7a398e4b70f3n) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x800n) != 0n) ratio = (ratio * 0xe7159475a2c29b7443b29c7fa6e889d9n) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x1000n) != 0n) ratio = (ratio * 0xd097f3bdfd2022b8845ad8f792aa5825n) >> 128n                                                                                                                                                                       
+        if ((absTick & 0x2000n) != 0n) ratio = (ratio * 0xa9f746462d870fdf8a65dc1f90e061e5n) >> 128n                                                                                                                                                                       
+        if ((absTick & 0x4000n) != 0n) ratio = (ratio * 0x70d869a156d2a1b890bb3df62baf32f7n) >> 128n                                                                                                                                                                       
+        if ((absTick & 0x8000n) != 0n) ratio = (ratio * 0x31be135f97d08fd981231505542fcfa6n) >> 128n                                                                                                                                                                       
+        if ((absTick & 0x10000n) != 0n) ratio = (ratio * 0x9aa508b5b7a84e1c677de54f3e99bc9n) >> 128n                                                                                                                                                                       
+        if ((absTick & 0x20000n) != 0n) ratio = (ratio * 0x5d6af8dedb81196699c329225ee604n) >> 128n                                                                                                                                                                        
+        if ((absTick & 0x40000n) != 0n) ratio = (ratio * 0x2216e584f5fa1ea926041bedfe98n) >> 128n                                                                                                                                                                          
+        if ((absTick & 0x80000n) != 0n) ratio = (ratio * 0x48a170391f7dc42444e8fa2n) >> 128n                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        if (tick > 0) ratio = (2n ** 256n - 1n) / ratio                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        // Convert from Q128.128 to Q64.96                                                                                                                                                                                                                                 
+        return (ratio >> 32n) + (ratio % Q32 > 0n ? 1n : 0n)
     }
     function price_to_sqrt(price: number){
         try{
@@ -244,15 +268,46 @@ const Provide = () => {
         //Calculate amounts based on price
         if(sqrt != 0n && position_sqrt_lower != 0n && position_sqrt_higher != 0n){
             if(sqrt <= position_sqrt_lower){
-                amount0 = BigInt(liquidity) * BigInt(2**96) * (position_sqrt_higher - position_sqrt_lower) / position_sqrt_higher / position_sqrt_lower   
+                amount0 = (BigInt(liquidity) * BigInt(2**96) * (position_sqrt_higher - position_sqrt_lower) + (position_sqrt_higher * position_sqrt_lower) - 1n) / (position_sqrt_higher * position_sqrt_lower)   
             } else if(sqrt < position_sqrt_higher) {
-                amount0 = liquidity * BigInt(2**96) * (position_sqrt_higher - sqrt) / position_sqrt_higher / sqrt
+                amount0 = (BigInt(liquidity) * BigInt(2**96) * (position_sqrt_higher - sqrt) + (position_sqrt_higher * sqrt) - 1n) / (position_sqrt_higher * sqrt) 
+                amount1 = (liquidity * (sqrt - position_sqrt_lower) + BigInt(2**96) - 1n) / BigInt(2**96)   
                 amount1 = liquidity * (sqrt - position_sqrt_lower) / BigInt(2**96)
             } else {
-                amount1 = liquidity * (position_sqrt_higher - position_sqrt_lower) / BigInt(2**96)
+                amount1 = (liquidity * (position_sqrt_higher - position_sqrt_lower) + BigInt(2**96) - 1n) / BigInt(2**96) 
             }
         }
         return([amount0, amount1])
+    }
+
+    function amounts_to_liquidity(amountA: bigint, amountB: bigint, sqrt: bigint, tick: bigint){
+        //rounds liquidity down - slippage protection
+        let amount0 = BigInt(amountA)  
+        let amount1 = BigInt(amountB)  
+        //Current SQRTprice and position SQRTprices
+        const Q96 = 2n ** 96n;
+        let position_sqrt_lower = BigInt(0)
+        let position_sqrt_higher = BigInt(0)
+        let liquidity = BigInt(0)
+        if(tickSpacing){
+            position_sqrt_lower = tick_to_sqrt(Number(tick))
+            position_sqrt_higher = tick_to_sqrt(Number(tick) + tickSpacing)
+        }
+        //Calculate amounts based on price
+        if(sqrt != 0n && position_sqrt_lower != 0n && position_sqrt_higher != 0n){
+            if(sqrt <= position_sqrt_lower){
+                //amount0 * (sqrt(upper) * sqrt(lower)) / (sqrt(upper) - sqrt(lower))
+                liquidity = BigInt(amount0) * (position_sqrt_higher * position_sqrt_lower) / ((position_sqrt_higher - position_sqrt_lower) * Q96)  
+            } else if(sqrt < position_sqrt_higher) {
+                let liquidity0 = BigInt(amount0) * (position_sqrt_higher * sqrt) / ((position_sqrt_higher - sqrt) * Q96)
+                let liquidity1 = (BigInt(amount1) * Q96) / (sqrt - position_sqrt_lower)
+                liquidity = liquidity0 < liquidity1 ? liquidity0 : liquidity1
+            } else {
+                //amount1 / (sqrt(upper) - sqrt(lower)).
+                liquidity = (BigInt(amount1) * Q96) / (position_sqrt_higher - position_sqrt_lower)
+            }
+        }
+        return(liquidity)
     }
 
     function feeGrowth_to__amount(global_fee: bigint, position_fee: bigint, liquidity: bigint){
@@ -591,7 +646,6 @@ const Provide = () => {
         functionName: 'balanceOf',
         args: [account.address as Address]
     })
-
     //NFT data retrieve
     const [reloadPage, setReloadPage] = useState(false)
     
@@ -742,14 +796,20 @@ const Provide = () => {
         sufficient_balance = balance1 ? balance1 > BigInt(amountToken[1]) : false
     }
 
+    let amount0max = amountToken[1] && token0.address == pool[0].address ? BigInt(amountToken[1]) : BigInt(0)
+    let amount1max = amountToken[1] && token0.address == pool[0].address ? BigInt(0) : BigInt(amountToken[1]) 
     let input_tick = sqrt_to_tick(price_to_sqrt(selectedPrices[1][0]))
+    let liquidity_input = amounts_to_liquidity(amount0max, amount1max, slot0[0], input_tick) 
+
     const mintParams: any = []
     mintParams.push(pool[0].address) // mintParams[0] - assetA
     mintParams.push(pool[1].address) // mintParams[1] - assetB
     mintParams.push(fee) // mintParams[2] - poolFee
     mintParams.push(input_tick) // mintParams[3] - tickLower
-    mintParams.push(token0.address == pool[0].address ? BigInt(amountToken[1]) : BigInt(0)) //provideParams[4] - amountA
-    mintParams.push(token0.address == pool[0].address ? BigInt(0) : BigInt(amountToken[1])) //provideParams[5] - amountB
+    mintParams.push(liquidity_input) // mintParams[4] - liquidity
+    mintParams.push(amount0max) //provideParams[5] - amountAmax
+    mintParams.push(amount1max) //provideParams[6] - amountBmax
+
     const { data: provideConfig } = useSimulateContract({
         abi: NonfungibleLendManager_abi,
         address: nonfungibleLendManagerAddress,
@@ -759,6 +819,7 @@ const Provide = () => {
             enabled: (!needsApproval && Number(amountToken[1]) > 0 && sufficient_balance), // Enabled only if approval is not needed
         },  
     })
+    
     const approveCall = needsApproval && approveConfig?.request ? {
             to: approveConfig.request.address,
             data: encodeFunctionData({
@@ -777,7 +838,7 @@ const Provide = () => {
             args: [mintParams],
         }),
     }
-
+    
     const handleProvide = async () => {
         const calls = [
             ...(needsApproval && approveCall ? [approveCall] : []),
@@ -817,13 +878,16 @@ const Provide = () => {
     let sufficient_depositA = balance0 ? balance0 >= BigInt(amountDepositA[1]) : false
     let sufficient_depositB = balance0 ? balance0 >= BigInt(amountDepositB[1]) : false
     let deposit_active = BigInt(amountDepositA[1]) + BigInt(amountDepositB[1]) > 0
-
+    
+    const tick_deposit = activePosition[0] ? activePosition[0][1] : 0
+    let liquidity_deposit = amounts_to_liquidity(BigInt(amountDepositA[1]), BigInt(amountDepositB[1]), slot0[0], tick_deposit) 
     const depositParams: any = []
     depositParams.push(activePosition[4]) // depositParams[0] - tokenId
     depositParams.push(pool[0].address) // depositParams[1] - assetA
     depositParams.push(pool[1].address) // depositParams[2]] - assetB
-    depositParams.push(BigInt(amountDepositA[1])) //depositParams[3] - amountA
-    depositParams.push(BigInt(amountDepositB[1])) //depositParams[4] - amountB
+    depositParams.push(liquidity_deposit) // mintParams[3] - liquidity
+    depositParams.push(BigInt(amountDepositA[1])) //depositParams[4] - amountMaxA
+    depositParams.push(BigInt(amountDepositB[1])) //depositParams[5] - amountMaxB
 
     const { data: depositConfig } = useSimulateContract({
         abi: NonfungibleLendManager_abi,
@@ -834,6 +898,7 @@ const Provide = () => {
             enabled: sufficient_depositA && sufficient_depositB && deposit_active, // Enabled only if withdraw amount input
         },
     })
+    
     const handleDeposit = async () => {
         if (depositConfig?.request) {
             writeContract(depositConfig.request,

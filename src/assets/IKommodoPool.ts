@@ -230,15 +230,15 @@ export const Kommodo_Pool_abi = [
         },
         {
           "indexed": false,
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "amountA",
-          "type": "uint128"
+          "type": "uint256"
         },
         {
           "indexed": false,
-          "internalType": "uint128",
+          "internalType": "uint256",
           "name": "amountB",
-          "type": "uint128"
+          "type": "uint256"
         }
       ],
       "name": "Provide",
@@ -767,12 +767,17 @@ export const Kommodo_Pool_abi = [
             },
             {
               "internalType": "uint128",
-              "name": "amountA",
+              "name": "liquidity",
               "type": "uint128"
             },
             {
               "internalType": "uint128",
-              "name": "amountB",
+              "name": "amountMaxA",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "amountMaxB",
               "type": "uint128"
             }
           ],

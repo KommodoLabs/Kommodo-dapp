@@ -8,13 +8,13 @@ export const Factory_Locations = [
     {
       "chainId": 11155111,
       "ChainName": "Sepolia",
-      "ContractAddress": "0x883Ae63cf7c4Fe3F7d74620F44856aae0e8Ec8d9",
+      "ContractAddress": "0x653CAF2dBDDb5D3A6f71D67F8B379eBdb1a9aF82",
       "ContractName": "KommodoFactory"
     },
     {
       "chainId": 11155111,
       "ChainName": "Sepolia",
-      "ContractAddress": "0x4289053e762CcDD35b4CC85d41d76ebd35D92a68",
+      "ContractAddress": "0x30a0eD81BC3A6F9Da6Ac1c290f94FF052E7da60d",
       "ContractName": "NonfungibleLendManager"
     },
 
