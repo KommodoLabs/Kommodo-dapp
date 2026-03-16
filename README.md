@@ -1,7 +1,7 @@
 # Kommodo-interface
 Minimal viable Kommodo react wagmi dapp.
 
-ipfs: [bafybeigq7owcvudzlcty35akulebdmhufng7ryrcyrushmsghjvrgc66fi](https://ipfs.io/ipfs/bafybeigq7owcvudzlcty35akulebdmhufng7ryrcyrushmsghjvrgc66fi/)
+ipfs: [bafybeic6qezkeynzbsseoqh42lc67cxqc2fmtdjkfxmr2y6ls7ijuh7thi](https://ipfs.io/ipfs/bafybeic6qezkeynzbsseoqh42lc67cxqc2fmtdjkfxmr2y6ls7ijuh7thi/)
 
 ## Install Dependencies
 ```
