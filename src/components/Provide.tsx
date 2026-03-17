@@ -488,10 +488,10 @@ const Provide = () => {
         let exp_index = price_close_log_index(slot0_price)
         let prices = get_prices(Number(exp_index[0]), Number(exp_index[1]))
         let input_price
-        if(slot0_price < 1){
-            input_price = prices[0] && prices[1] && temp1.address == pool[0].address ? prices[2][0] : prices[1][0]
+        if(token0.address == pool[0].address){
+            input_price = price_to_sqrt(prices[1][0]) < slot0[0] ? prices[1][0] : prices[2][0]
         } else {
-            input_price = prices[0] && prices[1] && temp1.address == pool[0].address ? prices[1][0] : prices[0][0]
+            input_price = price_to_sqrt(prices[1][0]) >= slot0[0] ? prices[1][0] : prices[2][0]
         }
         pricesInput(input_price)
     }
@@ -714,10 +714,10 @@ const Provide = () => {
         let exp_index = price_close_log_index(slot0_price)
         let prices = get_prices(Number(exp_index[0]), Number(exp_index[1]))
         let input_price
-        if(slot0_price < 1){
-            input_price = prices[0] && prices[1] && token0.address == pool[0].address ? prices[2][0] : prices[1][0]
+        if(token0.address == pool[0].address){
+            input_price = price_to_sqrt(prices[1][0]) < slot0[0] ? prices[1][0] : prices[2][0]
         } else {
-            input_price = prices[0] && prices[1] && token0.address == pool[0].address ? prices[1][0] : prices[0][0]
+            input_price = price_to_sqrt(prices[1][0]) >= slot0[0] ? prices[1][0] : prices[2][0]
         }
         pricesInput(input_price)
     }
@@ -876,7 +876,7 @@ const Provide = () => {
 
     /* Deposit */  
     let sufficient_depositA = balance0 ? balance0 >= BigInt(amountDepositA[1]) : false
-    let sufficient_depositB = balance0 ? balance0 >= BigInt(amountDepositB[1]) : false
+    let sufficient_depositB = balance1 ? balance1 >= BigInt(amountDepositB[1]) : false
     let deposit_active = BigInt(amountDepositA[1]) + BigInt(amountDepositB[1]) > 0
     
     const tick_deposit = activePosition[0] ? activePosition[0][1] : 0
@@ -898,7 +898,11 @@ const Provide = () => {
             enabled: sufficient_depositA && sufficient_depositB && deposit_active, // Enabled only if withdraw amount input
         },
     })
-    
+
+    console.log("suf",sufficient_depositA)
+    console.log("params",depositParams)
+    console.log("config",depositConfig)
+
     const handleDeposit = async () => {
         if (depositConfig?.request) {
             writeContract(depositConfig.request,
