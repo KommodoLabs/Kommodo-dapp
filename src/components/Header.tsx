@@ -53,6 +53,7 @@ const Header = () => {
                     <Nav className="justify-content-center">
                         <Link className="link" style={{ textDecoration: 'none' }} to='/'>Borrow</Link>
                         <Link className="link" style={{ textDecoration: 'none' }} to='/Provide'>Provide</Link>
+                        <a target='_blank' className="link" style={{ textDecoration: 'none' }} href='https://ipfs.io/ipfs/bafybeifzr3idhxgitsadwjtls2fumhukj3qy6anp4s44wlcxte76ioou6u'>Docs</a>
                     </Nav>
                     <Nav className="ms-auto">
                         <Connection/>   

@@ -898,11 +898,6 @@ const Provide = () => {
             enabled: sufficient_depositA && sufficient_depositB && deposit_active, // Enabled only if withdraw amount input
         },
     })
-
-    console.log("suf",sufficient_depositA)
-    console.log("params",depositParams)
-    console.log("config",depositConfig)
-
     const handleDeposit = async () => {
         if (depositConfig?.request) {
             writeContract(depositConfig.request,
